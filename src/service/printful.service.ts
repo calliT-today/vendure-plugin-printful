@@ -61,7 +61,11 @@ export class PrintfulService {
             );
             if (!existingProduct) {
                 const stream = await assetImportStrategy.getStreamFromPath(product.thumbnail_url);
-                const asset = (await this.assetService.createFromFileStream(stream, 'assets', ctx)) as Asset;
+                const asset = (await this.assetService.createFromFileStream(
+                    stream,
+                    product.thumbnail_url.split('/').pop(),
+                    ctx,
+                )) as Asset;
 
                 const productTranslation: ProductTranslationInput = {
                     languageCode: LanguageCode.en,
@@ -83,7 +87,7 @@ export class PrintfulService {
                     );
                     const asset = (await this.assetService.createFromFileStream(
                         stream,
-                        'assets',
+                        productVariant.files[1].filename,
                         ctx,
                     )) as Asset;
 
@@ -92,13 +96,14 @@ export class PrintfulService {
                         name: productVariant.name,
                     };
                     const createProductVariantInput: CreateProductVariantInput = {
-                        featuredAssetId: asset.id as string,
-                        productId: productId as string,
+                        featuredAssetId: `${asset.id}`,
+                        productId: `${productId}`,
                         translations: [productVariantTranslation],
                         sku: productVariant.id,
                         price: productVariant.retail_price * 100,
                         trackInventory: 'FALSE' as GlobalFlag,
                         taxCategoryId: '1',
+                        customFields: { printfulVariantId: productVariant.id },
                     };
                     await this.fastImporterService.createProductVariant(createProductVariantInput);
                 }

@@ -1,6 +1,6 @@
 {
   "name": "@callit-today/vendure-plugin-printful",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Vendure Plugin for Printful",
   "author": "CALLiT.today <plugins@callit.today>",
   "repository": "https://github.com/calliT-today/vendure-plugin-printful",
@@ -9,16 +9,19 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist",
     "README.md"
   ],
   "scripts": {
     "start": "yarn ts-node test/dev-server.ts",
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && tsc && copyfiles -u 1 'src/ui/**/*' dist/src/",
     "test": "jest --preset=\"ts-jest\""
+  },
+  "dependencies": {
+    "printful-client": "^0.0.3"
   },
   "devDependencies": {
     "@types/jest": "29.4.0",
@@ -28,7 +31,7 @@
     "@vendure/testing": "1.9.6",
     "@vendure/ui-devkit": "1.9.6",
     "jest": "29.4.3",
-    "printful-client": "^0.0.3",
+    "copyfiles": "^2.4.1",
     "rimraf": "^4.1.2",
     "ts-jest": "29.0.5",
     "ts-node": "10.9.1",

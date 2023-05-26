@@ -7,17 +7,25 @@ Import Printful products and start selling!
 
 # Getting started
 
-`yarn add @callit-today/vendure-plugin-printful`
+Install with `yarn add @callit-today/vendure-plugin-printful` and add to plugins in `vendure-config.ts`
+```
+AdminUiPlugin.init({
+    route: 'admin',
+    port: 3002,
+    app: compileUiExtensions({
+        outputPath: path.join(__dirname, '../admin-ui'),
+        extensions: [PrintfulPlugin.uiExtensions],
+        devMode: IS_DEV,
+    }),
+}),
+PrintfulPlugin.init({ enabled: true }),
+```
 
 \
 &nbsp;
-Add your `PRINTFUL_AUTH_TOKEN` to `.env` and run import GraphQL query in admin-api
+Add your `PRINTFUL_AUTH_TOKEN` to `.env` and import Printful products in admin UI
 
-```graphql
-{
-  importPrintfulProducts
-}
-```
+![Import Printful Products Button](static/screenshot.png)
 \
 &nbsp;
 
